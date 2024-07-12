@@ -75,7 +75,7 @@ export default function Dashboard() {
                         width="80%"
                         height="600"
                         frameBorder="0"
-                        allow="microphone fullscreen"
+                        allow="microphone"
                         title="Unity Game"
                         allowFullScreen
                     ></iframe>
