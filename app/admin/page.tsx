@@ -1,13 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useSession } from 'next-auth/react'
-import CryptoJS from 'crypto-js' // Assumes @types/crypto-js installed
+import CryptoJS from 'crypto-js'
 
-const encryptionKey = CryptoJS.enc.Utf8.parse('1234567890123456'); // Your encryption key
-const encryptionIv = CryptoJS.enc.Utf8.parse('1234567890123456'); // Your IV
+const encryptionKey = CryptoJS.enc.Utf8.parse('1234567890123456'); 
+const encryptionIv = CryptoJS.enc.Utf8.parse('1234567890123456'); 
 
 function encryptSessionData(sessionData: any): string {
+    console.log("AQUI ESTA KA SESSUIB DATA", sessionData)
     const jsonData = JSON.stringify(sessionData);
     const encrypted = CryptoJS.AES.encrypt(jsonData, encryptionKey, {
         iv: encryptionIv,
@@ -21,23 +22,21 @@ export default function Dashboard() {
     const { data: session, status } = useSession()
     const [micPermissionGranted, setMicPermissionGranted] = useState(false);
     const [iframeSrc, setIframeSrc] = useState('');
+    const iframeRef = useRef(null);
 
     useEffect(() => {
         console.log("Session data:", session);
         console.log("Session status:", status);
 
-        // Retrieve encrypted session data from sessionStorage
         const storedSessionData = sessionStorage.getItem('encryptedSessionData');
         if (storedSessionData) {
             setIframeSrc(`https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=${encodeURIComponent(storedSessionData)}`);
         }
 
-        // Request microphone permission
         requestMicPermission();
     }, [session])
 
     useEffect(() => {
-        // Update sessionStorage with new encrypted session data when session changes
         if (session) {
             const encryptedData = encryptSessionData(session);
             sessionStorage.setItem('encryptedSessionData', encryptedData);
@@ -47,9 +46,8 @@ export default function Dashboard() {
 
     const requestMicPermission = async () => {
         try {
-            // Request microphone permission
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            stream.getTracks().forEach(track => track.stop()); // Stop the stream immediately after granting permission
+            stream.getTracks().forEach(track => track.stop());
             console.log("Microphone permission granted");
             setMicPermissionGranted(true);
         } catch (err) {
@@ -68,9 +66,9 @@ export default function Dashboard() {
             </article>
 
             <div className="flex justify-center items-center h-full">
-                {/* Render iframe only when mic permission is granted and iframe source is set */}
                 {micPermissionGranted && iframeSrc && (
                     <iframe
+                        ref={iframeRef}
                         src={iframeSrc}
                         width="80%"
                         height="600"
@@ -78,6 +76,7 @@ export default function Dashboard() {
                         allow="microphone"
                         title="Unity Game"
                         allowFullScreen
+                        sandbox="allow-scripts allow-same-origin"
                     ></iframe>
                 )}
             </div>
