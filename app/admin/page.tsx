@@ -8,7 +8,6 @@ const encryptionKey = CryptoJS.enc.Utf8.parse('1234567890123456');
 const encryptionIv = CryptoJS.enc.Utf8.parse('1234567890123456'); 
 
 function encryptSessionData(sessionData: any): string {
-    console.log("AQUI ESTA KA SESSUIB DATA", sessionData)
     const jsonData = JSON.stringify(sessionData);
     const encrypted = CryptoJS.AES.encrypt(jsonData, encryptionKey, {
         iv: encryptionIv,
@@ -22,33 +21,34 @@ export default function Dashboard() {
     const { data: session, status } = useSession()
     const [micPermissionGranted, setMicPermissionGranted] = useState(false);
     const [iframeSrc, setIframeSrc] = useState('');
-    const iframeRef = useRef(null);
+    const iframeRef = useRef<HTMLIFrameElement>(null);
+    const sessionRef = useRef<typeof session>(null);
 
     useEffect(() => {
-        console.log("Session data:", session);
-        console.log("Session status:", status);
-
         const storedSessionData = sessionStorage.getItem('encryptedSessionData');
         if (storedSessionData) {
             setIframeSrc(`https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=${encodeURIComponent(storedSessionData)}`);
         }
 
         requestMicPermission();
-    }, [session])
+    }, []);
 
     useEffect(() => {
-        if (session) {
-            const encryptedData = encryptSessionData(session);
-            sessionStorage.setItem('encryptedSessionData', encryptedData);
-            setIframeSrc(`https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=${encodeURIComponent(encryptedData)}`);
+        if (session && status === 'authenticated') {
+            // Only update if session has changed and iframeSrc is not already set
+            if (sessionRef.current !== session && !iframeSrc) {
+                sessionRef.current = session;
+                const encryptedData = encryptSessionData(session);
+                sessionStorage.setItem('encryptedSessionData', encryptedData);
+                setIframeSrc(`https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=${encodeURIComponent(encryptedData)}`);
+            }
         }
-    }, [session]);
+    }, [session, status, iframeSrc]);
 
     const requestMicPermission = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             stream.getTracks().forEach(track => track.stop());
-            console.log("Microphone permission granted");
             setMicPermissionGranted(true);
         } catch (err) {
             console.error("Error requesting microphone permission:", err);
