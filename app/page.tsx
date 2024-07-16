@@ -37,13 +37,11 @@ export default function Home() {
             <header className="flex-1 flex flex-col gap-6 justify-center items-center relative z-10 text-white">
                 <h1 className="text-5xl font-bold">InnovateX</h1>
                 <h2 className="text-3xl">
-                    Expert AI Assistants to Entrepreneurs
+                La plataforma definitiva para empresas que desean crecer y ser rentables
                 </h2>
                 <p className="text-xl max-w-3xl text-center">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Doloribus voluptas iure nisi facilis et cum ist ducimus!
-                    Quis velit minima corrupti ex, aliquam illo, nihil in est
-                    libero voluptas tempore?
+                
+                MentorIA basada en métodos de emprendedores exitosos, junto con asistentes de IA para múltiples tareas operativas. Con InnovateX, enfócate en innovar y alcanzar el éxito global.
                 </p>
                 <aside className="flex gap-4">
                     <Button

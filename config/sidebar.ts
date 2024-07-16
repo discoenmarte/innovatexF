@@ -15,11 +15,5 @@ export const SIDEBAR_LINKS: SideBarMenuItem[] = [
         label: 'Dashboard',
         icon: LayoutDashboard,
     },
-    {
-        href: '/admin/test',
-        title: 'Test',
-        label: 'Dashboard',
-        icon: PersonStandingIcon,
-    },
 
 ]

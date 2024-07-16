@@ -59,9 +59,6 @@ export default function Dashboard() {
         <section className="flex flex-1 flex-col gap-4 md:p-4 lg:p-6 lg:gap-6" style={{ height: '100vh' }}>
             <article className="grid gap-4">
                 <div className="flex items-center justify-between">
-                    <div className="grid">
-                        <h1 className="title">Iniria</h1>
-                    </div>
                 </div>
             </article>
 
