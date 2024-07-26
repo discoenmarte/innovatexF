@@ -4,8 +4,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import CryptoJS from 'crypto-js'
 
-const encryptionKey = CryptoJS.enc.Utf8.parse('1234567890123456'); 
-const encryptionIv = CryptoJS.enc.Utf8.parse('1234567890123456'); 
+const encryptionKey = CryptoJS.enc.Utf8.parse('1234567890123456');
+const encryptionIv = CryptoJS.enc.Utf8.parse('1234567890123456');
 
 function encryptSessionData(sessionData: any): string {
     const jsonData = JSON.stringify(sessionData);
