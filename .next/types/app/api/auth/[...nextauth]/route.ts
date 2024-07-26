@@ -1,4 +1,4 @@
-// File: /home/lidarit/Desktop/innovatex/app/api/auth/[...nextauth]/route.ts
+// File: /Volumes/disco2/Projects/innovatexF/app/api/auth/[...nextauth]/route.ts
 import * as entry from '../../../../../../app/api/auth/[...nextauth]/route.js'
 import type { NextRequest } from 'next/server.js'
 

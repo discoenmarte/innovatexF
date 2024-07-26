@@ -1,4 +1,4 @@
-// File: /home/lidarit/Desktop/innovatex/app/admin/page.tsx
+// File: /Volumes/disco2/Projects/innovatexF/app/admin/page.tsx
 import * as entry from '../../../../app/admin/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
