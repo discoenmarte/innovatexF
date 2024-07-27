@@ -8,13 +8,11 @@ export const authOptions: AuthOptions = {
     providers: [
         CredentialsProvider({
             // The name to display on the sign in form (e.g. "Sign in with...")
-
             // `credentials` is used to generate a form on the sign in page.
             // You can specify which fields should be submitted, by adding keys to the `credentials` object.
             // e.g. domain, username, password, 2FA token, etc.
             // You can pass any HTML attribute to the <input> tag through the object.
             credentials: {
-                
                 username: {
                     label: 'Username',
                     type: 'text',
@@ -28,7 +26,6 @@ export const authOptions: AuthOptions = {
             },
         }),
     ],
-
     session: { strategy: 'jwt', maxAge: 28800 }, // Seconds - 8 hours
     callbacks: {
         async jwt({ token, user, account }) {
@@ -38,5 +35,19 @@ export const authOptions: AuthOptions = {
             session.user = token as any
             return session
         },
+        async redirect({ url, baseUrl }) {
+            // Ensure the redirect URL is to your site and not localhost
+            if (url.startsWith('/')) return `${baseUrl}${url}`
+            else if (new URL(url).origin === baseUrl) return url
+            return baseUrl
+        }
     },
+    pages: {
+        signIn: '/auth/signin',
+        signOut: '/auth/signout',
+        error: '/auth/error', // Error code passed in query string as ?error=
+        verifyRequest: '/auth/verify-request', // (used for check email message)
+        newUser: null // If set, new users will be directed here on first sign in
+    },
+    debug: false,
 }
