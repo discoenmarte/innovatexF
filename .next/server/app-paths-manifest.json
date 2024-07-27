@@ -5,6 +5,6 @@
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js",
   "/signup/page": "app/signup/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/test/page": "app/admin/test/page.js"
+  "/admin/test/page": "app/admin/test/page.js",
+  "/admin/page": "app/admin/page.js"
 }

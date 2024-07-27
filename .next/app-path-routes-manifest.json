@@ -1,1 +1,1 @@
-{"/_not-found/page":"/_not-found","/api/auth/[...nextauth]/route":"/api/auth/[...nextauth]","/api/register-proxy/route":"/api/register-proxy","/favicon.ico/route":"/favicon.ico","/page":"/","/signup/page":"/signup","/admin/page":"/admin","/admin/test/page":"/admin/test"}
+{"/_not-found/page":"/_not-found","/api/auth/[...nextauth]/route":"/api/auth/[...nextauth]","/api/register-proxy/route":"/api/register-proxy","/favicon.ico/route":"/favicon.ico","/page":"/","/signup/page":"/signup","/admin/test/page":"/admin/test","/admin/page":"/admin"}

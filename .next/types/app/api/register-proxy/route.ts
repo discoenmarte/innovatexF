@@ -1,4 +1,4 @@
-// File: /Volumes/disco2/Projects/innovatexF/app/api/register-proxy/route.ts
+// File: /home/ubuntu/innovatexF/app/api/register-proxy/route.ts
 import * as entry from '../../../../../app/api/register-proxy/route.js'
 import type { NextRequest } from 'next/server.js'
 

@@ -1,4 +1,4 @@
-// File: /Volumes/disco2/Projects/innovatexF/app/signup/page.tsx
+// File: /home/ubuntu/innovatexF/app/signup/page.tsx
 import * as entry from '../../../../app/signup/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
