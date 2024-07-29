@@ -5,7 +5,7 @@ import axios, { AxiosError } from 'axios';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const response = await axios.post('http://54.225.197.41:8000/api/register/', body, {
+    const response = await axios.post('https://innova-server.aitopstaff.com/api/register/', body, {
       headers: {
         'Content-Type': 'application/json',
       },
