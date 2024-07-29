@@ -27,7 +27,7 @@ export default function Dashboard() {
     useEffect(() => {
         const storedSessionData = sessionStorage.getItem('encryptedSessionData');
         if (storedSessionData) {
-            setIframeSrc("https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=${encodeURIComponent(storedSessionData)}");
+            setIframeSrc("https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=$" + encodeURIComponent(storedSessionData));
         }
 
         requestMicPermission();
@@ -40,7 +40,7 @@ export default function Dashboard() {
                 sessionRef.current = session;
                 const encryptedData = encryptSessionData(session);
                 sessionStorage.setItem('encryptedSessionData', encryptedData);
-                setIframeSrc("https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=${encodeURIComponent(encryptedData)}");
+                setIframeSrc("https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=$" + encodeURIComponent(encryptedData));
             }
         }
     }, [session, status, iframeSrc]);
