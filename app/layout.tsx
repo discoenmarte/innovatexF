@@ -12,7 +12,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
     title: 'InnovateX',
-    description: 'Lorem ipsum dolor sit amet',
+    description: '',
 }
 
 export default function RootLayout({
