@@ -1,13 +1,13 @@
 'use client'
 
 import { Button } from '../components/ui/button';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import { useSessionValidation } from '../hooks/auth/useSessionValidation';
 import { useEffect, useState } from 'react';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 import { options } from '../config/particles';
-import { LogIn } from 'lucide-react';
+import { LogIn, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
@@ -31,6 +31,11 @@ export default function Home() {
         }
     };
 
+    const handleSignOut = () => {
+        sessionStorage.removeItem('encryptedSessionData');
+        signOut();
+    };
+
     return (
         <main className="flex min-h-screen flex-col p-10">
             <Particles className="absolute" id="tsparticles" options={options} />
@@ -40,7 +45,7 @@ export default function Home() {
                 La plataforma definitiva para empresas que desean crecer y ser rentables
                 </h2>
                 <p className="text-xl max-w-3xl text-center">
-                
+
                 MentorIA basada en métodos de emprendedores exitosos, junto con asistentes de IA para múltiples tareas operativas. Con InnovateX, enfócate en innovar y alcanzar el éxito global.
                 </p>
                 <aside className="flex gap-4">
@@ -60,6 +65,13 @@ export default function Home() {
                         onClick={handleSignUp}
                     >
                         Sign Up
+                    </Button>
+                    <Button
+                        className="flex gap-2 text-xl"
+                        onClick={handleSignOut}
+                    >
+                        Sign Out
+                        <LogOut size={24} />
                     </Button>
                 </aside>
             </header>
