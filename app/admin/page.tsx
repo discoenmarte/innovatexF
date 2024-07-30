@@ -36,14 +36,14 @@ export default function Dashboard() {
     useEffect(() => {
         if (session && status === 'authenticated') {
             // Only update if session has changed and iframeSrc is not already set
-            if (sessionRef.current !== session) {
+            if (sessionRef.current !== session && !iframeSrc) {
                 sessionRef.current = session;
                 const encryptedData = encryptSessionData(session);
                 sessionStorage.setItem('encryptedSessionData', encryptedData);
                 setIframeSrc("https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=" + encodeURIComponent(encryptedData));
             }
         }
-    }, [session, status]);
+    }, [session, status, iframeSrc]);
 
     const requestMicPermission = async () => {
         try {

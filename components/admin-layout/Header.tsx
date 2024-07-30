@@ -13,6 +13,14 @@ import {
 import { signOut } from 'next-auth/react'
 import { useSessionValidation } from '@/hooks/auth/useSessionValidation'
 
+const handleSignOut = async () => {
+    // Remove session data from sessionStorage
+    sessionStorage.removeItem('encryptedSessionData');
+
+    // Sign out and then redirect to the login page or another page
+    await signOut(); ;
+};
+
 export default function Header() {
     const _ = useSessionValidation()
     return (
@@ -51,7 +59,7 @@ export default function Header() {
                     </DrawerContent>
                 </Drawer> */}
                 <Button
-                    onClick={() => signOut()}
+                    onClick={() => handleSignOut()}
                     variant="ghost"
                     size="icon"
                     className="ml-auto gap-1.5 text-sm"
