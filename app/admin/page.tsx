@@ -24,14 +24,14 @@ export default function Dashboard() {
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const sessionRef = useRef<typeof session>(null);
 
-    useEffect(() => {
-        const storedSessionData = sessionStorage.getItem('encryptedSessionData');
-        if (storedSessionData) {
-            setIframeSrc("https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=" + encodeURIComponent(storedSessionData));
-        }
+    // useEffect(() => {
+    //     const storedSessionData = sessionStorage.getItem('encryptedSessionData');
+    //     if (storedSessionData) {
+    //         setIframeSrc("https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=" + encodeURIComponent(storedSessionData));
+    //     }
 
-        requestMicPermission();
-    }, []);
+    //     requestMicPermission();
+    // }, []);
 
     useEffect(() => {
         if (session && status === 'authenticated') {
