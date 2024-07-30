@@ -1,13 +1,13 @@
 'use client'
 
 import { Button } from '../components/ui/button';
-import { signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useSessionValidation } from '../hooks/auth/useSessionValidation';
 import { useEffect, useState } from 'react';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 import { options } from '../config/particles';
-import { LogIn, LogOut } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
@@ -29,11 +29,6 @@ export default function Home() {
         if (router) {
             router.push('/signup');
         }
-    };
-
-    const handleSignOut = () => {
-        sessionStorage.removeItem('encryptedSessionData');
-        signOut();
     };
 
     return (
@@ -65,13 +60,6 @@ export default function Home() {
                         onClick={handleSignUp}
                     >
                         Sign Up
-                    </Button>
-                    <Button
-                        className="flex gap-2 text-xl"
-                        onClick={handleSignOut}
-                    >
-                        Sign Out
-                        <LogOut size={24} />
                     </Button>
                 </aside>
             </header>
