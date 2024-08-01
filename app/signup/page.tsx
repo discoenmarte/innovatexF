@@ -21,8 +21,9 @@ export default function Signup() {
     const newErrors: { [key: string]: string } = {};
 
     // Validate username
-    if (/\s/.test(username)) {
-      newErrors.username = 'Username should not contain spaces';
+    const usernamePattern = /^[a-zA-Z0-9_]+$/;
+    if (!usernamePattern.test(username)) {
+      newErrors.username = 'Username should only contain letters, numbers, and underscores, and no spaces';
     }
 
     // Validate email
