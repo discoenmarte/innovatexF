@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import CryptoJS from 'crypto-js'
 
@@ -20,30 +20,18 @@ function encryptSessionData(sessionData: any): string {
 export default function Dashboard() {
     const { data: session, status } = useSession()
     const [micPermissionGranted, setMicPermissionGranted] = useState(false);
-    const [iframeSrc, setIframeSrc] = useState('');
-    const iframeRef = useRef<HTMLIFrameElement>(null);
-    const sessionRef = useRef<typeof session>(null);
 
     useEffect(() => {
-        const storedSessionData = sessionStorage.getItem('encryptedSessionData');
-        if (storedSessionData) {
-            setIframeSrc("https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=" + encodeURIComponent(storedSessionData));
-        }
-
         requestMicPermission();
     }, []);
 
     useEffect(() => {
         if (session && status === 'authenticated') {
-            // Only update if session has changed and iframeSrc is not already set
-            if (sessionRef.current !== session && !iframeSrc) {
-                sessionRef.current = session;
-                const encryptedData = encryptSessionData(session);
-                sessionStorage.setItem('encryptedSessionData', encryptedData);
-                setIframeSrc("https://bot-dev.aitopstaff.com/BusinessAssistant/3/?data=" + encodeURIComponent(encryptedData));
-            }
+            // Save encrypted session data to sessionStorage
+            const encryptedData = encryptSessionData(session);
+            sessionStorage.setItem('encryptedSessionData', encryptedData);
         }
-    }, [session, status, iframeSrc]);
+    }, [session, status]);
 
     const requestMicPermission = async () => {
         try {
@@ -55,27 +43,31 @@ export default function Dashboard() {
         }
     }
 
+    const handleConnectClick = () => {
+        const encryptedSessionData = sessionStorage.getItem('encryptedSessionData');
+        if (encryptedSessionData) {
+            const url = `https://bot.aitopstaff.com/innova?data=${encodeURIComponent(encryptedSessionData)}`;
+            window.location.href = url;
+        } else {
+            console.error("No session data found.");
+        }
+    }
+
     return (
         <section className="flex flex-1 flex-col gap-4 md:p-4 lg:p-6 lg:gap-6" style={{ height: '100vh' }}>
             <article className="grid gap-4">
                 <div className="flex items-center justify-between">
+                    <button 
+                        onClick={handleConnectClick} 
+                        className="px-4 py-2 bg-blue-500 text-white rounded"
+                    >
+                        Connect with Iniria
+                    </button>
                 </div>
             </article>
 
             <div className="flex justify-center items-center h-full">
-                {micPermissionGranted && iframeSrc && (
-                    <iframe
-                        ref={iframeRef}
-                        src={iframeSrc}
-                        width="80%"
-                        height="600"
-                        frameBorder="0"
-                        allow="microphone"
-                        title="Unity Game"
-                        allowFullScreen
-                        sandbox="allow-scripts allow-same-origin allow-modals"
-                    ></iframe>
-                )}
+                {/* Removed iframe */}
             </div>
         </section>
     )
