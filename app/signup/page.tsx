@@ -10,6 +10,7 @@ export default function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -60,6 +61,12 @@ export default function Signup() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+
+    if (password !== confirmPassword) {
+      setError('Las contraseñas no coinciden');
+      setIsLoading(false);
+      return;
+    }
 
     if (!validateForm()) {
       setIsLoading(false);
@@ -126,7 +133,7 @@ export default function Signup() {
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-semibold">Password</label>
+          <label htmlFor="password" className="block text-sm font-semibold">Contraseña</label>
           <input
             type="password"
             id="password"
@@ -137,6 +144,18 @@ export default function Signup() {
             required
           />
           {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="confirmPassword" className="block text-sm font-semibold">Confirmar Contraseña</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
         </div>
         <div className="mb-4">
           <label htmlFor="phoneNumber" className="block text-sm font-semibold">Phone Number</label>
