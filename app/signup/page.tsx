@@ -115,12 +115,14 @@ export default function Signup() {
           message += 'El número de teléfono ya está en uso. ';
         }
         
-        setPopupMessage(message.trim());
+        setPopupMessage(message.trim() || 'Ha ocurrido un error al registrar el usuario.');
         setShowPopup(true);
       } else if (error instanceof Error) {
-        setError(error.message);
+        setPopupMessage(error.message);
+        setShowPopup(true);
       } else {
-        setError('An unknown error occurred');
+        setPopupMessage('Ha ocurrido un error desconocido');
+        setShowPopup(true);
       }
     } finally {
       setIsLoading(false);
@@ -133,7 +135,7 @@ export default function Signup() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
             <h2 className="text-xl font-bold mb-4 text-red-600">Error</h2>
-            <p>{popupMessage}</p>
+            <p className="mb-4">{popupMessage || "Ha ocurrido un error inesperado."}</p>
             <Button 
               onClick={() => setShowPopup(false)} 
               className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -143,7 +145,7 @@ export default function Signup() {
           </div>
         </div>
       )}
-      <div className="w-full max-w-md m-auto bg-white rounded-lg shadow-md p-8">
+      <div className="w-full max-w-md m-auto bg-white rounded-lg shadow-md p-8 relative">
         <h1 className="text-2xl font-bold text-center">Sign Up</h1>
         <form onSubmit={handleSignUp} className="mt-6">
           <div className="mb-4">
