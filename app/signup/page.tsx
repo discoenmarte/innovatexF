@@ -128,112 +128,123 @@ export default function Signup() {
   };
 
   return (
-    <div className="w-full max-w-md m-auto bg-white rounded-lg shadow-md p-8 relative">
+    <>
       {showPopup && (
-        <div className="absolute top-0 left-0 right-0 bg-red-500 text-white p-4 rounded-t-lg">
-          {popupMessage}
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+            <h2 className="text-xl font-bold mb-4 text-red-600">Error</h2>
+            <p>{popupMessage}</p>
+            <Button 
+              onClick={() => setShowPopup(false)} 
+              className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Cerrar
+            </Button>
+          </div>
         </div>
       )}
-      <h1 className="text-2xl font-bold text-center">Sign Up</h1>
-      <form onSubmit={handleSignUp} className="mt-6">
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-sm font-semibold">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-semibold">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-semibold">Contraseña</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="confirmPassword" className="block text-sm font-semibold">Confirmar Contraseña</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          {password !== confirmPassword && <p className="text-red-500 text-sm">Las contraseñas no coinciden</p>}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="phoneNumber" className="block text-sm font-semibold">Phone Number</label>
-          <input
-            type="text"
-            id="phoneNumber"
-            name="phoneNumber"
-            className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-          {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="firstName" className="block text-sm font-semibold">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-          {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="lastName" className="block text-sm font-semibold">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-          {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
-        </div>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <Button type="submit" className="w-full text-center mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled={isLoading}>
-          {isLoading ? 'Signing Up...' : 'Sign Up'}
-        </Button>
-        <Button onClick={() => router.push('/api/auth/signin?callbackUrl=%2Fadmin')} className="w-full text-center mt-4">
-          Sign In
-        </Button>
-      </form>
-    </div>
+      <div className="w-full max-w-md m-auto bg-white rounded-lg shadow-md p-8">
+        <h1 className="text-2xl font-bold text-center">Sign Up</h1>
+        <form onSubmit={handleSignUp} className="mt-6">
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-sm font-semibold">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-semibold">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-semibold">Contraseña</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="confirmPassword" className="block text-sm font-semibold">Confirmar Contraseña</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            {password !== confirmPassword && <p className="text-red-500 text-sm">Las contraseñas no coinciden</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="phoneNumber" className="block text-sm font-semibold">Phone Number</label>
+            <input
+              type="text"
+              id="phoneNumber"
+              name="phoneNumber"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+            {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="firstName" className="block text-sm font-semibold">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+            {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="lastName" className="block text-sm font-semibold">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+            {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
+          </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <Button type="submit" className="w-full text-center mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled={isLoading}>
+            {isLoading ? 'Signing Up...' : 'Sign Up'}
+          </Button>
+          <Button onClick={() => router.push('/api/auth/signin?callbackUrl=%2Fadmin')} className="w-full text-center mt-4">
+            Sign In
+          </Button>
+        </form>
+      </div>
+    </>
   );
 }
