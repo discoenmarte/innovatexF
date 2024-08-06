@@ -171,6 +171,7 @@ export default function Signup() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+          {password !== confirmPassword && <p className="text-red-500 text-sm">Las contraseñas no coinciden</p>}
         </div>
         <div className="mb-4">
           <label htmlFor="phoneNumber" className="block text-sm font-semibold">Phone Number</label>
