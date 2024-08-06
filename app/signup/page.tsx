@@ -104,14 +104,13 @@ export default function Signup() {
       if (axios.isAxiosError(error) && error.response?.status === 400) {
         const responseData = error.response.data;
         let message = '';
-        
-        if (responseData.username) {
+        if (responseData.message.username) {
           message += 'El nombre de usuario ya existe. ';
         }
-        if (responseData.email) {
+        if (responseData.message.email) {
           message += 'El correo electrónico ya está registrado. ';
         }
-        if (responseData.phone_number) {
+        if (responseData.message.phone_number) {
           message += 'El número de teléfono ya está en uso. ';
         }
         
