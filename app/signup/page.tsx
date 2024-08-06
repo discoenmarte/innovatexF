@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Button } from '../../components/ui/button';
@@ -17,6 +17,17 @@ export default function Signup() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
@@ -92,19 +103,20 @@ export default function Signup() {
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 400) {
         const responseData = error.response.data;
-        const newErrors: { [key: string]: string } = {};
+        let message = '';
         
         if (responseData.username) {
-          newErrors.username = 'El nombre de usuario ya existe';
+          message += 'El nombre de usuario ya existe. ';
         }
         if (responseData.email) {
-          newErrors.email = 'El correo electrónico ya está registrado';
+          message += 'El correo electrónico ya está registrado. ';
         }
         if (responseData.phone_number) {
-          newErrors.phoneNumber = 'El número de teléfono ya está en uso';
+          message += 'El número de teléfono ya está en uso. ';
         }
         
-        setErrors(newErrors);
+        setPopupMessage(message.trim());
+        setShowPopup(true);
       } else if (error instanceof Error) {
         setError(error.message);
       } else {
@@ -116,7 +128,12 @@ export default function Signup() {
   };
 
   return (
-    <div className="w-full max-w-md m-auto bg-white rounded-lg shadow-md p-8">
+    <div className="w-full max-w-md m-auto bg-white rounded-lg shadow-md p-8 relative">
+      {showPopup && (
+        <div className="absolute top-0 left-0 right-0 bg-red-500 text-white p-4 rounded-t-lg">
+          {popupMessage}
+        </div>
+      )}
       <h1 className="text-2xl font-bold text-center">Sign Up</h1>
       <form onSubmit={handleSignUp} className="mt-6">
         <div className="mb-4">
