@@ -91,7 +91,22 @@ export default function Signup() {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setError(error.response?.data.message || 'Failed to register user');
+        const responseData = error.response?.data;
+        if (responseData) {
+          const newErrors: { [key: string]: string } = {};
+          if (responseData.username) {
+            newErrors.username = responseData.username[0];
+          }
+          if (responseData.email) {
+            newErrors.email = responseData.email[0];
+          }
+          if (responseData.phone_number) {
+            newErrors.phoneNumber = responseData.phone_number[0];
+          }
+          setErrors(newErrors);
+        } else {
+          setError('Failed to register user');
+        }
       } else if (error instanceof Error) {
         setError(error.message);
       } else {
