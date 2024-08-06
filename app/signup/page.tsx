@@ -61,6 +61,7 @@ export default function Signup() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    setErrors({});
 
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden');
@@ -84,29 +85,26 @@ export default function Signup() {
       });
 
       if (response.status === 201) {
-        // Redirect to the custom sign-in URL
         router.push('/api/auth/signin?callbackUrl=%2Fadmin');
       } else {
         setError('Unexpected response status: ' + response.status);
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const responseData = error.response?.data;
-        if (responseData) {
-          const newErrors: { [key: string]: string } = {};
-          if (responseData.username) {
-            newErrors.username = responseData.username[0];
-          }
-          if (responseData.email) {
-            newErrors.email = responseData.email[0];
-          }
-          if (responseData.phone_number) {
-            newErrors.phoneNumber = responseData.phone_number[0];
-          }
-          setErrors(newErrors);
-        } else {
-          setError('Failed to register user');
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        const responseData = error.response.data;
+        const newErrors: { [key: string]: string } = {};
+        
+        if (responseData.username) {
+          newErrors.username = 'El nombre de usuario ya existe';
         }
+        if (responseData.email) {
+          newErrors.email = 'El correo electrónico ya está registrado';
+        }
+        if (responseData.phone_number) {
+          newErrors.phoneNumber = 'El número de teléfono ya está en uso';
+        }
+        
+        setErrors(newErrors);
       } else if (error instanceof Error) {
         setError(error.message);
       } else {
