@@ -46,7 +46,7 @@ export default function Dashboard() {
     const handleConnectClick = () => {
         const encryptedSessionData = sessionStorage.getItem('encryptedSessionData');
         if (encryptedSessionData) {
-            const url = `https://bot.aitopstaff.com/innova?data=${encodeURIComponent(encryptedSessionData)}`;
+            const url = `https://bot-dev.aitopstaff.com/BusinessAssistant/1/?data=${encodeURIComponent(encryptedSessionData)}`;
             window.location.href = url;
         } else {
             console.error("No session data found.");
