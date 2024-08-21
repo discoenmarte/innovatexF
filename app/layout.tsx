@@ -11,7 +11,7 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-    title: 'InnovateX',
+    title: 'InnovateX - DEV',
     description: '',
 }
 
