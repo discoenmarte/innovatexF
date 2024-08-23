@@ -47,6 +47,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
     "react-number-format": "^5.3.4",
+    "react-phone-number-input": "^3.4.5",
     "react-resizable-panels": "^2.0.16",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",

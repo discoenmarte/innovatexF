@@ -1,9 +1,11 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Button } from '../../components/ui/button';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 
 export default function Signup() {
   const router = useRouter();
@@ -11,7 +13,7 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,31 +34,27 @@ export default function Signup() {
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 
-    // Validate username
+    // Validación de username, email, password, etc.
     const usernamePattern = /^[a-zA-Z0-9_]+$/;
     if (!usernamePattern.test(username)) {
       newErrors.username = 'Username should only contain letters, numbers, and underscores, and no spaces';
     }
 
-    // Validate email
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       newErrors.email = 'Invalid email address';
     }
 
-    // Validate password
     if (password.length < 8) {
       newErrors.password = 'Password must be at least 8 characters long';
     } else if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[^A-Za-z0-9]/.test(password)) {
       newErrors.password = 'Password must contain uppercase, lowercase, number, and special character';
     }
 
-    // Validate phone number (simple example)
     if (phoneNumber && !/^\+?[1-9]\d{1,14}$/.test(phoneNumber)) {
       newErrors.phoneNumber = 'Invalid phone number';
     }
 
-    // Validate first and last names
     if (!firstName.trim()) {
       newErrors.firstName = 'First Name is required';
     }
@@ -201,13 +199,12 @@ export default function Signup() {
           </div>
           <div className="mb-4">
             <label htmlFor="phoneNumber" className="block text-sm font-semibold">Phone Number</label>
-            <input
-              type="text"
-              id="phoneNumber"
-              name="phoneNumber"
-              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+            <PhoneInput
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(value) => setPhoneNumber(value)}
+              defaultCountry="US"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              international={false}
             />
             {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
           </div>
