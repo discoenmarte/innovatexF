@@ -12,6 +12,7 @@ export const authOptions: AuthOptions = {
             // You can specify which fields should be submitted, by adding keys to the `credentials` object.
             // e.g. domain, username, password, 2FA token, etc.
             // You can pass any HTML attribute to the <input> tag through the object.
+            name: 'Sign in',
             credentials: {
                 username: {
                     label: 'Username',
