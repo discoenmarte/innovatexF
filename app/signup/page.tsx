@@ -82,13 +82,13 @@ export default function Signup() {
       setIsLoading(false);
       return;
     }
-
+    const formattedPhoneNumber = phoneNumber?.startsWith('+') ? phoneNumber.slice(1) : phoneNumber;
     try {
       const response = await axios.post('/api/register-proxy', {
         username,
         email,
         password,
-        phone_number: phoneNumber,
+        phone_number: formattedPhoneNumber,
         first_name: firstName,
         last_name: lastName,
       });
@@ -201,7 +201,7 @@ export default function Signup() {
             <label htmlFor="phoneNumber" className="block text-sm font-semibold">Phone Number</label>
             <PhoneInput
               value={phoneNumber}
-              onChange={(value) => setPhoneNumber(value && value.startsWith('+') ? value.slice(1) : value || '')}
+              onChange={(value) => setPhoneNumber(value)}
               defaultCountry="US"
               className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
               international={false}
