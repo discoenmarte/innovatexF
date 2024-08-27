@@ -201,7 +201,7 @@ export default function Signup() {
             <label htmlFor="phoneNumber" className="block text-sm font-semibold">Phone Number</label>
             <PhoneInput
               value={phoneNumber}
-              onChange={(value) => setPhoneNumber(value)}
+              onChange={(value) => setPhoneNumber(value.startsWith('+') ? value.slice(1) : value)}
               defaultCountry="US"
               className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
               international={false}
