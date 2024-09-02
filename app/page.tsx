@@ -41,7 +41,7 @@ export default function Home() {
                 </h2>
                 <p className="text-xl max-w-3xl text-center justify-center items-center">
 
-                MentorIA basada en métodos de emprendedores exitosos, junto con asistentes de IA para múltiples tareas operativas. Con InnovateX, enfócate en innovar y alcanzar el éxito global.
+                MentorIA basada en métodos de empresarios exitosos, junto con asistentes de IA para múltiples tareas operativas. Con InnovateX, enfócate en innovar y alcanzar el éxito global.
                 </p>
                 <aside className="flex gap-4">
                     <Button

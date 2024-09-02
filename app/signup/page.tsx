@@ -111,7 +111,6 @@ export default function Signup() {
         if (responseData.message.phone_number) {
           message += 'El número de teléfono ya está en uso. ';
         }
-        
         setPopupMessage(message.trim() || 'Ha ocurrido un error al registrar el usuario.');
         setShowPopup(true);
       } else if (error instanceof Error) {
@@ -133,8 +132,8 @@ export default function Signup() {
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
             <h2 className="text-xl font-bold mb-4 text-red-600">Error</h2>
             <p className="mb-4">{popupMessage || "Ha ocurrido un error inesperado."}</p>
-            <Button 
-              onClick={() => setShowPopup(false)} 
+            <Button
+              onClick={() => setShowPopup(false)}
               className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             >
               Cerrar
