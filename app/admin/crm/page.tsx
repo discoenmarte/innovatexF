@@ -9,34 +9,26 @@ export default function Crm() {
     const { data: session, status } = useSession()
 
     useEffect(() => {
-        if (session && status === 'authenticated') {
-            // Save encrypted session data to sessionStorage
-            console.log(session)
-        }
-    }, [session, status]);
-
-    useEffect(() => {
         const fetchLeads = async () => {
-        try {
-            console.log(session)
-            /*const sessionData = JSON.parse(encryptedSessionData.json() || '{}');
-
-            const config = {
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${encryptedSessionData.accessToken}`
+            if (session && status === 'authenticated') {
+                // Accede al token de acceso dentro de session.tokens.access
+                const accessToken = session.user.tokens.access;
+                try {
+                    const config = {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    }
+                    const response = await axios.get('https://innova-server.aitopstaff.com/api/leads/', config);
+                    setLeads(response.data);
+                } catch (error) {
+                    console.error('Error fetching leads:', error);
                 }
             }
-
-            const response = await axios.get('https://innova-server.aitopstaff.com/api/leads/', config)
-            setLeads(response.data)*/
-        } catch (error) {
-            console.error('Error fetching leads:', error)
         }
-    }
-
-    fetchLeads()
-    }, [])
+        fetchLeads();
+    }, [session, status]); // Dependencias para volver a ejecutar el efecto cuando cambie session o status
 
     return (
         <div>
@@ -55,6 +47,18 @@ export default function Crm() {
                 </tr>
             </thead>
             <tbody>
+            {leads.map((lead) => (
+            <tr key={lead.id}>
+                <td>{lead.id}</td>
+                <td>{lead.available ? 'Yes' : 'No'}</td>
+                <td>{lead.lead_reporter_name}</td>
+                <td>{lead.client_full_name}</td>
+                <td>{lead.company_name}</td>
+                <td>{lead.client_phone_number}</td>
+                <td>{lead.client_email}</td>
+                <td>{lead.potential_solution}</td>
+                </tr>
+            ))}
             </tbody>
             </table>
         </div>
