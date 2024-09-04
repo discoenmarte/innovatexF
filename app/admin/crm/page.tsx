@@ -40,6 +40,7 @@ export default function Crm() {
         const fetchLeads = async () => {
             if (session && status === 'authenticated') {
                 const accessToken = session.user.tokens.access;
+                console.log(accessToken);
                 try {
                     const config = {
                         headers: {
@@ -48,8 +49,10 @@ export default function Crm() {
                         }
                     }
                     const response = await axios.get('https://innova-server.aitopstaff.com/api/leads/', config);
+                    console.log(response.data);
                     if (Array.isArray(response.data)) {
                         setLeads(response.data);
+                        console.log(leads);
                     } else {
                         console.error('Expected an array but received:', response.data);
                     }
