@@ -49,10 +49,8 @@ export default function Crm() {
                         }
                     }
                     const response = await axios.get('https://innova-server.aitopstaff.com/api/leads/', config);
-                    console.log(response.data);
                     if (Array.isArray(response.data)) {
                         setLeads(response.data);
-                        console.log(leads);
                     } else {
                         console.error('Expected an array but received:', response.data);
                     }
@@ -70,10 +68,6 @@ export default function Crm() {
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Available</th>
-                        <th>Created</th>
-                        <th>Modified</th>
                         <th>Lead Reporter Name</th>
                         <th>Lead Reporter Position</th>
                         <th>Lead Reporter Phone Number</th>
@@ -102,10 +96,6 @@ export default function Crm() {
                 <tbody>
                     {leads.map((lead) => (
                         <tr key={lead.id}>
-                            <td>{lead.id}</td>
-                            <td>{lead.available ? 'Yes' : 'No'}</td>
-                            <td>{lead.created}</td>
-                            <td>{lead.modified}</td>
                             <td>{lead.lead_reporter_name}</td>
                             <td>{lead.lead_reporter_position}</td>
                             <td>{lead.lead_reporter_phone_number}</td>
@@ -128,7 +118,6 @@ export default function Crm() {
                             <td>{lead.sales_stage || 'N/A'}</td>
                             <td>{lead.interaction_dates || 'N/A'}</td>
                             <td>{lead.current_status || 'N/A'}</td>
-                            <td>{lead.bot_id}</td>
                         </tr>
                     ))}
                 </tbody>
