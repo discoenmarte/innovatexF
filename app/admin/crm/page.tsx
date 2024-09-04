@@ -9,6 +9,13 @@ export default function Crm() {
     const { data: session, status } = useSession()
 
     useEffect(() => {
+        if (session && status === 'authenticated') {
+            // Save encrypted session data to sessionStorage
+            console.log(session)
+        }
+    }, [session, status]);
+
+    useEffect(() => {
         const fetchLeads = async () => {
         try {
             console.log(session)
