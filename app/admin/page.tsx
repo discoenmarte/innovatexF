@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react'
 import CryptoJS from 'crypto-js'
 
-const encryptionKey = CryptoJS.enc.Utf8.parse('1234567890123456'); 
-const encryptionIv = CryptoJS.enc.Utf8.parse('1234567890123456'); 
+const encryptionKey = CryptoJS.enc.Utf8.parse('1234567890123456');
+const encryptionIv = CryptoJS.enc.Utf8.parse('1234567890123456');
 
 function encryptSessionData(sessionData: any): string {
     const jsonData = JSON.stringify(sessionData);
@@ -18,6 +19,7 @@ function encryptSessionData(sessionData: any): string {
 }
 
 export default function Dashboard() {
+    const router = useRouter();
     const { data: session, status } = useSession()
     //const [micPermissionGranted, setMicPermissionGranted] = useState(false);
 
@@ -55,15 +57,25 @@ export default function Dashboard() {
         }
     }
 
+    const handleRedirect = () => {
+        router.push('/admin/crm');
+    };
+
     return (
         <section className="flex flex-1 flex-col gap-4 md:p-4 lg:p-6 lg:gap-6" style={{ height: '100vh' }}>
             <article className="grid gap-4">
                 <div className="flex items-center justify-between">
-                    <button 
-                        onClick={handleConnectClick} 
+                    <button
+                        onClick={handleConnectClick}
                         className="px-4 py-2 bg-blue-500 text-white rounded"
                     >
                         Connect with Iniria
+                    </button>
+                    <button
+                        onClick={handleRedirect}
+                        className="px-4 py-2 bg-blue-500 text-white rounded"
+                    >
+                        Connect with CRM
                     </button>
                 </div>
             </article>
