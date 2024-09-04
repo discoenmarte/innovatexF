@@ -2,7 +2,12 @@
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
+import ExpandableTable from './expandableTable'
 
+// If you've exported the Lead interface from ExpandableTable.tsx, you can import it here
+// import { Lead } from './ExpandableTable'
+
+// Otherwise, define it here
 interface Lead {
     id: string;
     available: boolean;
@@ -36,11 +41,11 @@ interface Lead {
 export default function Crm() {
     const [leads, setLeads] = useState<Lead[]>([]);
     const { data: session, status } = useSession();
+
     useEffect(() => {
         const fetchLeads = async () => {
             if (session && status === 'authenticated') {
                 const accessToken = session.user.tokens.access;
-                console.log(accessToken);
                 try {
                     const config = {
                         headers: {
@@ -48,12 +53,8 @@ export default function Crm() {
                             'Authorization': `Bearer ${accessToken}`
                         }
                     }
-                    const response = await axios.get('https://innova-server.aitopstaff.com/api/leads/', config);
-                    if (Array.isArray(response.data)) {
-                        setLeads(response.data);
-                    } else {
-                        console.error('Expected an array but received:', response.data);
-                    }
+                    const response = await axios.get<Lead[]>('https://innova-server.aitopstaff.com/api/leads/', config);
+                    setLeads(response.data);
                 } catch (error) {
                     console.error('Error fetching leads:', error);
                 }
@@ -63,65 +64,10 @@ export default function Crm() {
     }, [session, status]);
 
     return (
-        <div>
-            <h1>CRM View</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Lead Reporter Name</th>
-                        <th>Lead Reporter Position</th>
-                        <th>Lead Reporter Phone Number</th>
-                        <th>Client Full Name</th>
-                        <th>Company Name</th>
-                        <th>Company Telephone</th>
-                        <th>Client Phone Number</th>
-                        <th>Client Email</th>
-                        <th>Potential Solution</th>
-                        <th>Client Position</th>
-                        <th>Client Feedback</th>
-                        <th>Industry</th>
-                        <th>Company Size</th>
-                        <th>Client Needs</th>
-                        <th>Budget</th>
-                        <th>Authority Level</th>
-                        <th>Urgency</th>
-                        <th>Decision Timeline</th>
-                        <th>Offered Price</th>
-                        <th>Sales Stage</th>
-                        <th>Interaction Dates</th>
-                        <th>Current Status</th>
-                        <th>Bot ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {leads.map((lead) => (
-                        <tr key={lead.id}>
-                            <td>{lead.lead_reporter_name}</td>
-                            <td>{lead.lead_reporter_position}</td>
-                            <td>{lead.lead_reporter_phone_number}</td>
-                            <td>{lead.client_full_name}</td>
-                            <td>{lead.company_name}</td>
-                            <td>{lead.company_telephone || 'N/A'}</td>
-                            <td>{lead.client_phone_number || 'N/A'}</td>
-                            <td>{lead.client_email || 'N/A'}</td>
-                            <td>{lead.potential_solution}</td>
-                            <td>{lead.client_position || 'N/A'}</td>
-                            <td>{lead.client_feedback}</td>
-                            <td>{lead.industry || 'N/A'}</td>
-                            <td>{lead.company_size || 'N/A'}</td>
-                            <td>{lead.client_needs}</td>
-                            <td>{lead.budget || 'N/A'}</td>
-                            <td>{lead.authority_level || 'N/A'}</td>
-                            <td>{lead.urgency || 'N/A'}</td>
-                            <td>{lead.decision_timeline || 'N/A'}</td>
-                            <td>{lead.offered_price || 'N/A'}</td>
-                            <td>{lead.sales_stage || 'N/A'}</td>
-                            <td>{lead.interaction_dates || 'N/A'}</td>
-                            <td>{lead.current_status || 'N/A'}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-4">CRM View</h1>
+            <p className="mb-4">Total Leads: {leads.length}</p>
+            <ExpandableTable leads={leads} />
         </div>
     )
 }
