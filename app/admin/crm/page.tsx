@@ -6,12 +6,12 @@ import CryptoJS from 'crypto-js'
 
 export default function Crm() {
     const [leads, setLeads] = useState([])
+    const { data: session, status } = useSession()
 
     useEffect(() => {
         const fetchLeads = async () => {
         try {
-            const encryptedSessionData = sessionStorage.getItem('encryptedSessionData');
-            console.log(encryptedSessionData)
+            console.log(session)
             /*const sessionData = JSON.parse(encryptedSessionData.json() || '{}');
 
             const config = {
