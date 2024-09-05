@@ -25,7 +25,7 @@ export default function Header() {
     const _ = useSessionValidation()
     return (
         <header className="sticky top-0 z-10 flex h-[3.05rem] md:h-[3.56rem] items-center justify-between gap-1 border-b bg-background px-4">
-            <h1 className="text-xl font-semibold">Mentor AI</h1>
+            <h1 className="text-xl font-semibold">InnovateX platform</h1>
             <section className="flex gap-4">
                 {/* <Drawer>
                     <DrawerTrigger asChild>
