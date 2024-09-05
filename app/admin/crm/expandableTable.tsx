@@ -33,6 +33,18 @@ interface ExpandableTableProps {
 
 const ExpandableTable: React.FC<ExpandableTableProps> = ({ leads }) => {
     const [expandedRows, setExpandedRows] = useState<{ [key: string]: boolean }>({});
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc'); // Controla el estado del orden
+
+    // Alterna entre ascendente y descendente
+    const toggleSortOrder = () => {
+        setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+    };
+
+    // Función para ordenar los leads basado en el nombre del lead reporter
+    const sortedLeads = [...leads].sort((a, b) => {
+        const comparison = a.lead_reporter_name.localeCompare(b.lead_reporter_name);
+        return sortOrder === 'asc' ? comparison : -comparison;
+    });
 
     const toggleRow = (id: string) => {
         setExpandedRows(prev => ({ ...prev, [id]: !prev[id] }));
@@ -43,14 +55,19 @@ const ExpandableTable: React.FC<ExpandableTableProps> = ({ leads }) => {
             <thead>
                 <tr className="bg-gray-100">
                     <th className="p-2 border">Expand</th>
-                    <th className="p-2 border">Lead Reporter Name</th>
+                    {/* Añade un botón para ordenar la columna Lead Reporter Name */}
+                    <th className="p-2 border cursor-pointer" onClick={toggleSortOrder}>
+                        Lead Reporter Name
+                        {/* Mostrar la dirección de orden actual */}
+                        {sortOrder === 'asc' ? ' ↑' : ' ↓'}
+                    </th>
                     <th className="p-2 border">Client Full Name</th>
                     <th className="p-2 border">Company Name</th>
                     <th className="p-2 border">Potential Solution</th>
                 </tr>
             </thead>
             <tbody>
-                {leads.map((lead) => (
+                {sortedLeads.map((lead) => (
                     <React.Fragment key={lead.id}>
                         <tr className="hover:bg-gray-50">
                             <td className="p-2 border">
