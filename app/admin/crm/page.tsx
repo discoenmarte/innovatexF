@@ -67,7 +67,13 @@ export default function Crm() {
     const exportToExcel = () => {
         // Filtrar los datos para eliminar los campos no deseados
         const filteredLeads = leads.map(({ id, available, created, modified, bot_id, ...rest }) => rest);
-        // Crear la hoja de cálculo con los datos filtrados
+        // Ordenar los datos por lead_reporter_name
+        filteredLeads.sort((a, b) => {
+            if (a.lead_reporter_name < b.lead_reporter_name) return -1;
+            if (a.lead_reporter_name > b.lead_reporter_name) return 1;
+            return 0;
+        })
+        // Crear la hoja de cálculo con los datos filtrados y ordenados
         const worksheet = XLSX.utils.json_to_sheet(filteredLeads);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Leads');
@@ -75,31 +81,51 @@ export default function Crm() {
         XLSX.writeFile(workbook, 'leads.xlsx');
     };
 
-    // Exportar datos a PDF
     const exportToPDF = () => {
         const doc = new jsPDF();
         const tableColumn = [
-        'Lead Reporter Name',
-        'Client Full Name',
-        'Company Name',
-        'Potential Solution',
-        'Client Email',
+            'Lead Reporter Name',
+            'Client Full Name',
+            'Company Name',
+            'Potential Solution',
+            'Client Email',
+            'Client Phone Number',
         ];
         const tableRows: any[] = [];
+        // Ordenar los datos por lead_reporter_name
+        leads.sort((a, b) => {
+            if (a.lead_reporter_name < b.lead_reporter_name) return -1;
+            if (a.lead_reporter_name > b.lead_reporter_name) return 1;
+            return 0;
+        });
         leads.forEach((lead) => {
-        const leadData = [
-            lead.lead_reporter_name,
-            lead.client_full_name,
-            lead.company_name,
-            lead.potential_solution,
-            lead.client_email || 'N/A',
-        ];
-        tableRows.push(leadData);
+            const leadData = [
+                lead.lead_reporter_name || 'N/A',
+                lead.client_full_name || 'N/A',
+                lead.company_name || 'N/A',
+                lead.potential_solution || 'N/A',
+                lead.client_email || 'N/A',
+                lead.client_phone_number || 'N/A',
+            ];
+            tableRows.push(leadData);
         });
         // Utiliza autoTable para generar la tabla en PDF
         autoTable(doc, {
-        head: [tableColumn],
-        body: tableRows,
+            head: [tableColumn],
+            body: tableRows,
+            styles: {
+                cellPadding: 2, // Ajusta el relleno de las celdas
+                fontSize: 10,   // Ajusta el tamaño de fuente
+                valign: 'middle', // Alineación vertical
+            },
+            columnStyles: {
+                0: { cellWidth: 20 },
+                1: { cellWidth: 20 },
+                2: { cellWidth: 25 },
+                3: { cellWidth: 60 },
+                4: { cellWidth: 28 },
+                5: { cellWidth: 27 },
+            },
         });
         doc.save('leads.pdf');
     };
