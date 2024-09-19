@@ -45,11 +45,11 @@ export default function Dashboard() {
         }
     }*/
 
-    const handleConnectClick = () => {
+    const handleConnectClick = (buildName) => {
         const encryptedSessionData = sessionStorage.getItem('encryptedSessionData');
         console.log(encryptedSessionData)
         if (encryptedSessionData) {
-            const url = `https://bot.aitopstaff.com/innova?data=${encodeURIComponent(encryptedSessionData)}`;
+            const url = `https://bot.aitopstaff.com/${buildName}?data=${encodeURIComponent(encryptedSessionData)}`;
             console.log(url)
             window.location.href = url;
         } else {
@@ -66,7 +66,7 @@ export default function Dashboard() {
             <article className="grid gap-4">
                 <div className="flex items-center justify-between">
                     <button
-                        onClick={handleConnectClick}
+                        onClick={() => handleConnectClick("innova")}
                         className="px-4 py-2 bg-blue-500 text-white rounded"
                     >
                         Connect with Iniria
@@ -76,6 +76,12 @@ export default function Dashboard() {
                         className="px-4 py-2 bg-blue-500 text-white rounded"
                     >
                         Connect with CRM
+                    </button>
+                    <button
+                        onClick={() => handleConnectClick("icesi")}
+                        className="px-4 py-2 bg-blue-500 text-white rounded"
+                    >
+                        Connect with Icesi
                     </button>
                 </div>
             </article>
