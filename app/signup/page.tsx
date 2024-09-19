@@ -11,11 +11,13 @@ export default function Signup() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [confirmEmail, setConfirmEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [company_name, setcompany_name] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -35,9 +37,9 @@ export default function Signup() {
     const newErrors: { [key: string]: string } = {};
 
     // Validación de username, email, password, etc.
-    const usernamePattern = /^[a-zA-Z0-9_]+$/;
+    const usernamePattern = /^[a-z0-9_]+$/;
     if (!usernamePattern.test(username)) {
-      newErrors.username = 'Username should only contain letters, numbers, and underscores, and no spaces';
+      newErrors.username = 'Username should only contain lowercase letters, numbers, and underscores, and no spaces';
     }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,6 +64,12 @@ export default function Signup() {
       newErrors.lastName = 'Last Name is required';
     }
 
+    if (!company_name.trim()) {
+      newErrors.company_name = 'company_name is required';
+    } else if (company_name !== company_name.toLowerCase()) {
+      newErrors.company_name = 'company_name name must be in lowercase';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -72,8 +80,14 @@ export default function Signup() {
     setError(null);
     setErrors({});
 
+    if (email !== confirmEmail) {
+      setError('Emails do not match');
+      setIsLoading(false);
+      return;
+    }
+
     if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden');
+      setError('Passwords do not match');
       setIsLoading(false);
       return;
     }
@@ -91,6 +105,7 @@ export default function Signup() {
         phone_number: formattedPhoneNumber,
         first_name: firstName,
         last_name: lastName,
+        company_name,
       });
 
       if (response.status === 201) {
@@ -103,22 +118,21 @@ export default function Signup() {
         const responseData = error.response.data;
         let message = '';
         if (responseData.message.username) {
-          message += 'El nombre de usuario ya existe. ';
+          message += 'The user name already exists. ';
         }
         if (responseData.message.email) {
-          message += 'El correo electrónico ya está registrado. ';
+          message += 'The email address is already registered. ';
         }
         if (responseData.message.phone_number) {
-          message += 'El número de teléfono ya está en uso. ';
+          message += 'The phone number is already in use. ';
         }
-        
-        setPopupMessage(message.trim() || 'Ha ocurrido un error al registrar el usuario.');
+        setPopupMessage(message.trim() || 'An error occurred while registering the user.');
         setShowPopup(true);
       } else if (error instanceof Error) {
         setPopupMessage(error.message);
         setShowPopup(true);
       } else {
-        setPopupMessage('Ha ocurrido un error desconocido');
+        setPopupMessage('An unknown error has occurred');
         setShowPopup(true);
       }
     } finally {
@@ -131,13 +145,13 @@ export default function Signup() {
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4 text-red-600">Error</h2>
-            <p className="mb-4">{popupMessage || "Ha ocurrido un error inesperado."}</p>
-            <Button 
-              onClick={() => setShowPopup(false)} 
+            <h2 className="text-xl font-bold mb-4 text-red-600">Notice</h2>
+            <p className="mb-4">{popupMessage || "An unexpected error has occurred."}</p>
+            <Button
+              onClick={() => setShowPopup(false)}
               className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             >
-              Cerrar
+              Close
             </Button>
           </div>
         </div>
@@ -153,7 +167,7 @@ export default function Signup() {
               name="username"
               className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value.toLowerCase())}
               required
             />
             {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
@@ -172,7 +186,20 @@ export default function Signup() {
             {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-semibold">Contraseña</label>
+            <label htmlFor="confirmEmail" className="block text-sm font-semibold">Confirm Email</label>
+            <input
+              type="email"
+              id="confirmEmail"
+              name="confirmEmail"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              value={confirmEmail}
+              onChange={(e) => setConfirmEmail(e.target.value)}
+              required
+            />
+            {email !== confirmEmail && <p className="text-red-500 text-sm">Passwords do not match</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-semibold">Password</label>
             <input
               type="password"
               id="password"
@@ -185,7 +212,7 @@ export default function Signup() {
             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-sm font-semibold">Confirmar Contraseña</label>
+            <label htmlFor="confirmPassword" className="block text-sm font-semibold">Confirm Password</label>
             <input
               type="password"
               id="confirmPassword"
@@ -195,7 +222,7 @@ export default function Signup() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
-            {password !== confirmPassword && <p className="text-red-500 text-sm">Las contraseñas no coinciden</p>}
+            {password !== confirmPassword && <p className="text-red-500 text-sm">Passwords do not match</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="phoneNumber" className="block text-sm font-semibold">Phone Number</label>
@@ -233,6 +260,19 @@ export default function Signup() {
               required
             />
             {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="company_name" className="block text-sm font-semibold">Company Name</label>
+            <input
+              type="text"
+              id="company_name"
+              name="company_name"
+              className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring"
+              value={company_name}
+              onChange={(e) => setcompany_name(e.target.value.toLowerCase())}
+              required
+            />
+            {errors.company_name && <p className="text-red-500 text-sm">{errors.company_name}</p>}
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <Button type="submit" className="w-full text-center mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled={isLoading}>
