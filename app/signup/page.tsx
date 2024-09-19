@@ -186,7 +186,7 @@ export default function Signup() {
             {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="confirmEmail" className="block text-sm font-semibold">Confirm Password</label>
+            <label htmlFor="confirmEmail" className="block text-sm font-semibold">Confirm Email</label>
             <input
               type="email"
               id="confirmEmail"
