@@ -73,7 +73,7 @@ export default function Signup() {
     setErrors({});
 
     if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden');
+      setError('Passwords do not match');
       setIsLoading(false);
       return;
     }
@@ -103,21 +103,21 @@ export default function Signup() {
         const responseData = error.response.data;
         let message = '';
         if (responseData.message.username) {
-          message += 'El nombre de usuario ya existe. ';
+          message += 'The user name already exists. ';
         }
         if (responseData.message.email) {
-          message += 'El correo electrónico ya está registrado. ';
+          message += 'The email address is already registered. ';
         }
         if (responseData.message.phone_number) {
-          message += 'El número de teléfono ya está en uso. ';
+          message += 'The phone number is already in use. ';
         }
-        setPopupMessage(message.trim() || 'Ha ocurrido un error al registrar el usuario.');
+        setPopupMessage(message.trim() || 'An error occurred while registering the user.');
         setShowPopup(true);
       } else if (error instanceof Error) {
         setPopupMessage(error.message);
         setShowPopup(true);
       } else {
-        setPopupMessage('Ha ocurrido un error desconocido');
+        setPopupMessage('An unknown error has occurred');
         setShowPopup(true);
       }
     } finally {
@@ -130,13 +130,13 @@ export default function Signup() {
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4 text-red-600">Error</h2>
+            <h2 className="text-xl font-bold mb-4 text-red-600">Notice</h2>
             <p className="mb-4">{popupMessage || "Ha ocurrido un error inesperado."}</p>
             <Button
               onClick={() => setShowPopup(false)}
               className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             >
-              Cerrar
+              Close
             </Button>
           </div>
         </div>
@@ -171,7 +171,7 @@ export default function Signup() {
             {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-semibold">Contraseña</label>
+            <label htmlFor="password" className="block text-sm font-semibold">Password</label>
             <input
               type="password"
               id="password"
@@ -184,7 +184,7 @@ export default function Signup() {
             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-sm font-semibold">Confirmar Contraseña</label>
+            <label htmlFor="confirmPassword" className="block text-sm font-semibold">Confirm Password</label>
             <input
               type="password"
               id="confirmPassword"
@@ -194,7 +194,7 @@ export default function Signup() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
-            {password !== confirmPassword && <p className="text-red-500 text-sm">Las contraseñas no coinciden</p>}
+            {password !== confirmPassword && <p className="text-red-500 text-sm">Passwords not match</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="phoneNumber" className="block text-sm font-semibold">Phone Number</label>
