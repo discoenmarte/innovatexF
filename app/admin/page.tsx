@@ -21,11 +21,6 @@ function encryptSessionData(sessionData: any): string {
 export default function Dashboard() {
     const router = useRouter();
     const { data: session, status } = useSession()
-    //const [micPermissionGranted, setMicPermissionGranted] = useState(false);
-
-    /*useEffect(() => {
-        requestMicPermission();
-    }, []);*/
 
     useEffect(() => {
         if (session && status === 'authenticated') {
@@ -34,16 +29,6 @@ export default function Dashboard() {
             sessionStorage.setItem('encryptedSessionData', encryptedData);
         }
     }, [session, status]);
-
-    /*const requestMicPermission = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            stream.getTracks().forEach(track => track.stop());
-            setMicPermissionGranted(true);
-        } catch (err) {
-            console.error("Error requesting microphone permission:", err);
-        }
-    }*/
 
     const handleConnectClick = (buildName) => {
         const encryptedSessionData = sessionStorage.getItem('encryptedSessionData');
