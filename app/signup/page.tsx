@@ -262,7 +262,7 @@ export default function Signup() {
             {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="company_name" className="block text-sm font-semibold">Company Name</label>
+            <label htmlFor="company_name" className="block text-sm font-semibold">Company Or University Name</label>
             <input
               type="text"
               id="company_name"
