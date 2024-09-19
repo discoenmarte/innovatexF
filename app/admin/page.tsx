@@ -45,10 +45,10 @@ export default function Dashboard() {
         }
     }*/
 
-    const handleConnectClick = () => {
+    const handleConnectClick = (buildName: string) => {
         const encryptedSessionData = sessionStorage.getItem('encryptedSessionData');
         if (encryptedSessionData) {
-            const url = `https://bot-dev.aitopstaff.com/BusinessAssistant/1/?data=${encodeURIComponent(encryptedSessionData)}`;
+            const url = `https://bot-dev.aitopstaff.com/${buildName}/1/?data=${encodeURIComponent(encryptedSessionData)}`;
             window.location.href = url;
         } else {
             console.error("No session data found.");
@@ -64,7 +64,7 @@ export default function Dashboard() {
             <article className="grid gap-4">
                 <div className="flex items-center justify-between">
                     <button
-                        onClick={handleConnectClick}
+                        onClick={() => handleConnectClick("BusinessAssistant")}
                         className="px-4 py-2 bg-blue-500 text-white rounded"
                     >
                         Connect with Iniria
@@ -74,6 +74,12 @@ export default function Dashboard() {
                         className="px-4 py-2 bg-blue-500 text-white rounded"
                     >
                         Connect with CRM
+                    </button>
+                    <button
+                        onClick={() => handleConnectClick("Icesi")}
+                        className="px-4 py-2 bg-blue-500 text-white rounded"
+                    >
+                        Connect with Icesi
                     </button>
                 </div>
             </article>
